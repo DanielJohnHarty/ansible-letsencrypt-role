@@ -1,0 +1,17 @@
+---
+- name: Run the equivalent of "apt  update"
+  apt:
+    update_cache: yes
+
+- name: Install required packages
+  apt:
+    pkg:
+      - python3-certbot-apache
+      - certbot
+
+- name: Enable firewall
+  command: ufw enable
+
+- name: Allow Apache traffic through firewall
+  command: ufw allow 'Apache Full'
+
