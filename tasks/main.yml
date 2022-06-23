@@ -15,3 +15,18 @@
 - name: Allow Apache traffic through firewall
   command: ufw allow 'Apache Full'
 
+- name: Generate certificate with Let's Encrypt
+  shell: |
+    set timeout 10
+    spawn 'certbot --apache -d {{ domain }} -d www.{{ domain }}'
+    # Whats your email
+    expect "(Enter 'c' to cancel):"
+    send "{{ email }}"
+    # Agree to terms of service
+    expect "(A)gree/(C)ancel:"
+    send "A"
+    # Permit to share email?
+    expect "(Y)es/(N)o:"
+    send "N"
+    # Implementation to finish
+  register: result
